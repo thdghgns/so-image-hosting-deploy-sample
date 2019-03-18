@@ -2,4 +2,9 @@
 
 set -e
 
-service image-hosting stop
+if [ -e /etc/init.d/image-hosting ]
+then
+    service image-hosting stop
+else
+    echo "service does not exist."
+fi
