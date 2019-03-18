@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -e
+
+CATALINA_HOME=/usr/share/service
+
+# Clear install directory
+if [ -d $CATALINA_HOME ]; then
+    rm -rf $CATALINA_HOME
+fi
+mkdir -p $CATALINA_HOME
+
+# Copy over to the CATALINA_HOME
+cp /tmp/image-hosting.jar $CATALINA_HOME
+
+# Install Java if not yet installed
+{ which java; } || { yum -y install java; }
+
+# Create the service init.d script
+ln -s $CATALINA_HOME/image-hosting.jar /etc/init.d/image-hosting
+
+# Change permission mode for the service script
+chmod 755 /etc/init.d/image-hosting
+
